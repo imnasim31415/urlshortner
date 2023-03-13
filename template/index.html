@@ -1,0 +1,119 @@
+<head>
+    <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+    <style>
+        *,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body,
+section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+body {
+  border-radius: 5px;
+  min-height: 100vh;
+  font-family: "Lato", sans-serif;
+  line-height: 2;
+  color: rgb(18, 212, 51);
+  background-color:rgb(128, 202, 178);
+}
+
+main {
+  max-width: 720px;
+  width: 100%;
+  border: 0px solid #11dee6;
+  border-radius: 30px;
+  background-color: #e71677;
+}
+
+h1 {
+  padding: 1rem;
+  text-shadow: #11dee6;
+  text-align: center;
+  color: white;
+}
+
+input,
+button {
+  shape-rendering: auto;
+  font-family: inherit;
+  line-height: inherit;
+  color: inherit;
+  box-shadow: #11dee6;
+  border: 0;
+  padding: 1rem;
+}
+
+input {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.buttons {
+  display: flex;
+}
+
+button {
+  cursor: pointer;
+  flex: 1;
+  background-color: transparent;
+  color: rgb(14, 123, 224);
+  transition-duration: .4s;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+}
+.button1 {
+  background-color: #e71677; 
+  color: white; 
+}
+.button1:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+
+section {
+  min-height: 120px;
+  text-align: center;
+  background-color: white;
+}
+
+    </style>
+</head>
+<main>
+  <h1>URL Shortener</h1>
+  <form id="post-form">
+    {% csrf_token %}
+  <input type="text" name="link" id="link" placeholder="Enter URL here">
+  <div class="buttons">
+    <button class="button button1" type="submit" id="shorten">Click to short</button>
+  </div>
+  </form>
+  
+  <section id="section"><h2>  </h2></section>
+    
+</main>
+
+<script type="text/javascript">
+  $(document).on('submit','#post-form',function(e){
+    e.preventDefault();
+
+    $.ajax({
+      type:'POST',
+      url:'/create',
+      data:{
+        link:$('#link').val(),
+        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+      },
+      success: function(data){
+        $('h2').html("localhost:8000/"+data)
+      }
+    });
+  });
+</script>
